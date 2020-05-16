@@ -25,22 +25,22 @@
     </div>
     <div class="card">
       <span>Your answer:</span>
-      <input type="text" id="yourAnswer" placeholder="Type in your answer">
+      <input type="text" #yourAnswer placeholder="Type in your answer">
     </div>
     <div class="card buttons">
-      <button>Give me new question</button>
-      <button>Check my answer</button>
-      <button>Get some help</button>
+      <input type="button" value="Give me new question" (click)="getNewQuestion()">
+      <input type="button" value="Check my answer" (click)="yourAnswer.value == answer ? raiseGoodAnswerMessage() : raiseWrongAnswerMessage()">
+      <input type="button" value="Get some help" (click)="showAnswer = true">
     </div>
     <div class="card dotted">
       <span>Answer:</span>
-      <span id=realAnswer>{{ answer }}</span>
+      <span id=realAnswer *ngIf="showAnswer">{{ answer }}</span>
     </div>
     <div class="card dotted time">
       <span>Show answer after:</span>
-      <input type="text" id="seconds" placeholder="0">
+      <input #timeout type="text" id="seconds" placeholder="0">
       <span>seconds</span>
-      <button>Set seconds</button>
+      <input type="button" value="Set seconds" (click)="counter = timeout.value; setTimeOut()">
     </div>
     <div class="card dotted selection">
       <span>Select category from the list below:</span>
