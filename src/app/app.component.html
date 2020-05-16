@@ -25,11 +25,11 @@
     </div>
     <div class="card">
       <span>Your answer:</span>
-      <input type="text" #yourAnswer placeholder="Type in your answer">
+      <input type="text" id=ans #yourAnswer placeholder="Type in your answer">
     </div>
     <div class="card buttons">
       <input type="button" value="Give me new question" (click)="getNewQuestion()">
-      <input type="button" value="Check my answer" (click)="yourAnswer.value == answer ? raiseGoodAnswerMessage() : raiseWrongAnswerMessage()">
+      <input type="button" value="Check my answer" (click)="yourAnswer.value == answer ? getConfirmation() : raiseWrongAnswerMessage()">
       <input type="button" value="Get some help" (click)="showAnswer = true">
     </div>
     <div class="card dotted">

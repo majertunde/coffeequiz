@@ -28,15 +28,21 @@ export class AppComponent {
   getNewQuestion() {
     console.log('getting new question...');
     this.showAnswer = false;
+    (<HTMLInputElement>document.getElementById("ans")).value = "";
     this.showAnswerAfterTimeout();
   }
 
-  raiseGoodAnswerMessage() {
+  getConfirmation() {
     console.log('good answer!');
-    this.getNewQuestion();
+    var retVal = confirm("Good answer! Ready for a new question?");
+    this.showAnswer = true;
+    if( retVal == true ) {
+      this.getNewQuestion();
+    }
   }
 
   raiseWrongAnswerMessage() {
     console.log('wrong answer!');
+    alert("Wrong answer! Try again!");
   }
 }
