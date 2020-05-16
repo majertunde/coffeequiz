@@ -10,25 +10,44 @@
 <div class="content">
 
   <div class="quiz-container">
-    <div class="card">
-      <span>Random question in category</span>
+    <div class="card" [ngSwitch]="selection.value">
+      <span *ngSwitchDefault>Question from {{ category }} category</span>
+      <span *ngSwitchCase="'random'">Question from random category: {{ category }}</span>
     </div>
    <div class="card">
-      <span>Question:</span>
+      <span>Question id: {{ id }}</span>
+    </div>
+    <div class="card">
+      <span>Air date: {{ airdate | date: 'MMM dd, yyyy' }}</span>
+    </div>
+    <div class="card">
+      <span>Question: {{ question }}</span>
     </div>
     <div class="card">
       <span>Your answer:</span>
+      <input type="text" id="yourAnswer" placeholder="Type in your answer">
     </div>
-    <div class="card">
-      <span>Answer:</span>
-    </div>
-    <div class="card">
-      <span>Show answer after:</span>
-    </div>
-    <div class="card">
+    <div class="card buttons">
       <button>Give me new question</button>
       <button>Check my answer</button>
       <button>Get some help</button>
+    </div>
+    <div class="card dotted">
+      <span>Answer:</span>
+      <span id=realAnswer>{{ answer }}</span>
+    </div>
+    <div class="card dotted time">
+      <span>Show answer after:</span>
+      <input type="text" id="seconds" placeholder="0">
+      <span>seconds</span>
+      <button>Set seconds</button>
+    </div>
+    <div class="card dotted selection">
+      <span>Select category from the list below:</span>
+      <select #selection size="8">
+        <option value="random" selected>Random category</option>
+        <option *ngFor="let category of categories">{{ category }}</option>
+      </select>
     </div>
   </div>
 

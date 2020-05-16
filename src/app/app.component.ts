@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'coffeequiz';
+  category = 'SAMPLE';
+  id = 0;
+  airdate = new Date();
+  question = 'Sample question?';
+  answer = 'Sample answer';
+  categories : any;
 }
