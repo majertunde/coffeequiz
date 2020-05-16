@@ -40,7 +40,7 @@
       <span>Show answer after:</span>
       <input #timeout type="text" id="seconds" placeholder="0">
       <span>seconds</span>
-      <input type="button" value="Set seconds" (click)="counter = timeout.value; setTimeOut()">
+      <input type="button" value="Set seconds" (click)="counter = timeout.value; showAnswerAfterTimeout()">
     </div>
     <div class="card dotted selection">
       <span>Select category from the list below:</span>

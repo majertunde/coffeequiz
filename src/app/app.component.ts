@@ -17,27 +17,18 @@ export class AppComponent {
   categories : any;
   interval : any;
 
-  setTimeOut() {
-    clearInterval(this.interval);
-    var counter = this.counter;   
-    this.interval = setInterval(() => {
-      console.log(counter);
-      if (counter == 0) {
-        this.showAnswer = true;
-      }
-
-      counter--;
-
-      if (counter < 0 ) {
-        clearInterval(this.interval);
-      }
-    }, 1000);
+  showAnswerAfterTimeout() {
+    clearTimeout(this.interval);
+    var counter = this.counter;
+    this.interval = setTimeout(() => {
+      this.showAnswer = true;
+    }, counter*1000);
   }
 
   getNewQuestion() {
     console.log('getting new question...');
     this.showAnswer = false;
-    this.setTimeOut();
+    this.showAnswerAfterTimeout();
   }
 
   raiseGoodAnswerMessage() {
