@@ -1,0 +1,17 @@
+.titlebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: #f8f7a0;
+    color: black;
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  .titlebar img {
+    margin: 0 16px;
+  }
