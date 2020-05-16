@@ -17,6 +17,11 @@ export class AppComponent {
   answer : any;
   categories : any;
   interval : any;
+  result : any;
+
+  ngOnInit(): void {
+    this.getRandomQuestion();
+  }
 
   showAnswerAfterTimeout() {
     clearTimeout(this.interval);
@@ -29,6 +34,7 @@ export class AppComponent {
   getNewQuestion() {
     this.showAnswer = false;
     (<HTMLInputElement>document.getElementById("ans")).value = "";
+    this.getRandomQuestion();
     this.showAnswerAfterTimeout();
   }
 
@@ -42,5 +48,24 @@ export class AppComponent {
 
   raiseWrongAnswerMessage() {
     alert("Wrong answer! Try again!");
+  }
+  
+  getRandomQuestion() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://jservice.io/api/random');
+    xhr.onload = () => {
+      console.log(xhr.response);
+      this.result = JSON.parse(xhr.response)[0];
+      this.getQuestionDataFromResult();
+    };
+    xhr.send();
+  }
+
+  getQuestionDataFromResult() {
+    this.id = this.result.id;
+    this.question = this.result.question;
+    this.airdate = this.result.airdate;
+    this.answer = this.result.answer;
+    this.categoryId = this.result.category_id;
   }
 }
