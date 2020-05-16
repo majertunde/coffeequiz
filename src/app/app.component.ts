@@ -7,13 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'coffeequiz';
-  category = 'SAMPLE';
-  id = 0;
-  airdate = new Date();
-  question = 'Sample question?';
-  answer = 'Sample answer';
   showAnswer = false;
   counter = 0;
+  category : any;
+  categoryId : any;
+  id : any;
+  airdate : any;
+  question : any;
+  answer : any;
   categories : any;
   interval : any;
 
@@ -26,14 +27,12 @@ export class AppComponent {
   }
 
   getNewQuestion() {
-    console.log('getting new question...');
     this.showAnswer = false;
     (<HTMLInputElement>document.getElementById("ans")).value = "";
     this.showAnswerAfterTimeout();
   }
 
   getConfirmation() {
-    console.log('good answer!');
     var retVal = confirm("Good answer! Ready for a new question?");
     this.showAnswer = true;
     if( retVal == true ) {
@@ -42,7 +41,6 @@ export class AppComponent {
   }
 
   raiseWrongAnswerMessage() {
-    console.log('wrong answer!');
     alert("Wrong answer! Try again!");
   }
 }

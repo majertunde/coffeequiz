@@ -59,6 +59,11 @@
     height: auto;
 }
 
+.card.question {
+    height: auto;
+    line-height: 16px;
+}
+
 .content {
     display: flex;
     margin: 82px auto 32px;
