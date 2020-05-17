@@ -20,7 +20,7 @@
     <div class="card">
       <span>Air date: {{ airdate | date: 'MMM dd, yyyy' }}</span>
     </div>
-    <div class="card">
+    <div class="card question">
       <span>Question: {{ question }}</span>
     </div>
     <div class="card">
@@ -29,7 +29,7 @@
     </div>
     <div class="card buttons">
       <input type="button" value="Give me new question" (click)="getNewQuestion()">
-      <input type="button" value="Check my answer" (click)="yourAnswer.value == answer ? getConfirmation() : raiseWrongAnswerMessage()">
+      <input type="button" value="Check my answer" (click)="yourAnswer.value == answer ? raiseNewQuestionConfirmation() : raiseWrongAnswerMessage()">
       <input type="button" value="Get some help" (click)="showAnswer = true">
     </div>
     <div class="card dotted">
@@ -38,9 +38,9 @@
     </div>
     <div class="card dotted time">
       <span>Show answer after:</span>
-      <input #timeout type="text" id="seconds" placeholder="0">
+      <input #timeout type="text" id="seconds" placeholder="-1">
       <span>seconds</span>
-      <input type="button" value="Set seconds" (click)="counter = timeout.value; showAnswerAfterTimeout()">
+      <input type="button" value="Set seconds" (click)="timeoutCounter = timeout.value; showAnswerAfterTimeout()">
     </div>
     <div class="card dotted selection">
       <span>Select category from the list below:</span>

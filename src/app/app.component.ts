@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'coffeequiz';
 
   showAnswer = false;
-  counter = 0;
+  timeoutCounter = -1;
   categoryListOffset = 0;
   selectedCategoryId = -1;
   showRandomCategoryTitle = true;
@@ -31,7 +31,7 @@ export class AppComponent {
 
   showAnswerAfterTimeout() {
     clearTimeout(this.interval);
-    var counter = this.counter;
+    var counter = this.timeoutCounter;
     this.interval = setTimeout(() => {
       this.showAnswer = true;
     }, counter*1000);
@@ -41,16 +41,20 @@ export class AppComponent {
     this.showAnswer = false;
     (<HTMLInputElement>document.getElementById("ans")).value = "";
     if (this.selectedCategoryId < 0) {
-      this.showRandomCategoryTitle = true;
       this.getRandomQuestion();
+      this.showRandomCategoryTitle = true;
     } else {
-      this.showRandomCategoryTitle = false;
       this.getQuestionFromSelectedCategory(this.selectedCategoryId);
+      this.showRandomCategoryTitle = false;
     }
-    this.showAnswerAfterTimeout();
+    if (this.timeoutCounter >= 0) {
+      this.showAnswerAfterTimeout();
+    } else {
+      this.showAnswer = false;
+    }
   }
 
-  getConfirmation() {
+  raiseNewQuestionConfirmation() {
     var retVal = confirm("Good answer! Ready for a new question?");
     this.showAnswer = true;
     if( retVal == true ) {
