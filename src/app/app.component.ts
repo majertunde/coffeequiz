@@ -12,6 +12,8 @@ export class AppComponent {
   showAnswer = false;
   counter = 0;
   categoryListOffset = 0;
+  selectedCategoryId = -1;
+  showRandomCategoryTitle = true;
   categoryList : any;
   categoryName : any;
   categoryId : any;
@@ -24,7 +26,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.getRandomQuestion();
-    this.getCategoryList();
+    this.getHundredCategory();
   }
 
   showAnswerAfterTimeout() {
@@ -38,7 +40,13 @@ export class AppComponent {
   getNewQuestion() {
     this.showAnswer = false;
     (<HTMLInputElement>document.getElementById("ans")).value = "";
-    this.getRandomQuestion();
+    if (this.selectedCategoryId < 0) {
+      this.showRandomCategoryTitle = true;
+      this.getRandomQuestion();
+    } else {
+      this.showRandomCategoryTitle = false;
+      this.getQuestionFromSelectedCategory(this.selectedCategoryId);
+    }
     this.showAnswerAfterTimeout();
   }
 
@@ -77,23 +85,31 @@ export class AppComponent {
   getRandomQuestion() {
     this.sendHttpRequest('GET','/api/random').
     then( responseData => {
-      this.getQuestionDataFromResult(responseData)
+      this.getQuestionDataFromResult(responseData[0])
     });
   }
 
   getQuestionDataFromResult(responseData) {
-    this.questionId = responseData[0].id;
-    this.question = responseData[0].question;
-    this.airdate = responseData[0].airdate;
-    this.answer = responseData[0].answer;
-    this.categoryId = responseData[0].category_id;
-    this.categoryName = responseData[0].category.title;
+    this.questionId = responseData.id;
+    this.question = responseData.question;
+    this.airdate = responseData.airdate;
+    this.answer = responseData.answer;
+    this.categoryId = responseData.category_id;
+    this.categoryName = responseData.category.title;
   }
 
-  getCategoryList() {
+  getHundredCategory() {
     this.sendHttpRequest('GET','/api/categories?count=100&offset=' + this.categoryListOffset).
     then( responseData => {
       this.categoryList = responseData;
+    });
+  }
+
+  getQuestionFromSelectedCategory(selectedCategory) {
+    this.sendHttpRequest('GET','/api/clues?category=' + selectedCategory).
+    then( responseData => {
+      var random = Math.floor(Math.random() * responseData.length);
+      this.getQuestionDataFromResult(responseData[random]);
     });
   }
 }

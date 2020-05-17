@@ -10,9 +10,9 @@
 <div class="content">
 
   <div class="quiz-container">
-    <div class="card" [ngSwitch]="selection.value">
-      <span *ngSwitchDefault>Question from {{ categoryName }} category</span>
-      <span *ngSwitchCase="'random'">Question from random category: {{ categoryName }}</span>
+    <div class="card" [ngSwitch]="showRandomCategoryTitle">
+      <span *ngSwitchCase="'0'">Question from selected category: {{ categoryName }}</span>
+      <span *ngSwitchDefault>Question from random category: {{ categoryName }}</span>
     </div>
    <div class="card question">
       <span>Question id: {{ questionId }}</span>
@@ -44,9 +44,9 @@
     </div>
     <div class="card dotted selection">
       <span>Select category from the list below:</span>
-      <select #selection size="8">
-        <option value="random" selected>Random category</option>
-        <option *ngFor="let category of categoryList">{{ category.title }}</option>
+      <select #selection size="8" (change)="selectedCategoryId = selection[selection.selectedIndex].id">
+        <option value="random" id="-1" selected>Random category</option>
+        <option *ngFor="let category of categoryList" id="{{category.id}}">{{ category.title }}</option>
       </select>
     </div>
   </div>
