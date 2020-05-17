@@ -11,11 +11,11 @@
 
   <div class="quiz-container">
     <div class="card" [ngSwitch]="selection.value">
-      <span *ngSwitchDefault>Question from {{ category }} category</span>
-      <span *ngSwitchCase="'random'">Question from random category: {{ category }}</span>
+      <span *ngSwitchDefault>Question from {{ categoryName }} category</span>
+      <span *ngSwitchCase="'random'">Question from random category: {{ categoryName }}</span>
     </div>
    <div class="card question">
-      <span>Question id: {{ id }}</span>
+      <span>Question id: {{ questionId }}</span>
     </div>
     <div class="card">
       <span>Air date: {{ airdate | date: 'MMM dd, yyyy' }}</span>
