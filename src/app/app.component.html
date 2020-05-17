@@ -46,7 +46,7 @@
       <span>Select category from the list below:</span>
       <select #selection size="8">
         <option value="random" selected>Random category</option>
-        <option *ngFor="let category of categories">{{ category }}</option>
+        <option *ngFor="let category of categoryList">{{ category.title }}</option>
       </select>
     </div>
   </div>

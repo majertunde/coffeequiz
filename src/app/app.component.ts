@@ -11,7 +11,9 @@ export class AppComponent {
 
   showAnswer = false;
   counter = 0;
-  category : any;
+  categoryListOffset = 0;
+  categoryList : any;
+  categoryName : any;
   categoryId : any;
   questionId : any;
   airdate : any;
@@ -85,6 +87,13 @@ export class AppComponent {
     this.airdate = responseData[0].airdate;
     this.answer = responseData[0].answer;
     this.categoryId = responseData[0].category_id;
-    this.category = responseData[0].category.title;
+    this.categoryName = responseData[0].category.title;
+  }
+
+  getCategoryList() {
+    this.sendHttpRequest('GET','/api/categories?count=100&offset=' + this.categoryListOffset).
+    then( responseData => {
+      this.categoryList = responseData;
+    });
   }
 }
