@@ -13,7 +13,7 @@ export class AppComponent {
   counter = 0;
   category : any;
   categoryId : any;
-  id : any;
+  questionId : any;
   airdate : any;
   question : any;
   answer : any;
@@ -22,6 +22,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.getRandomQuestion();
+    this.getCategoryList();
   }
 
   showAnswerAfterTimeout() {
@@ -57,7 +58,14 @@ export class AppComponent {
       xhr.open(method, this.serverAddress+path);
       xhr.responseType = 'json';
       xhr.onload = () => {
-        resolve(xhr.response);
+        if (xhr.status >= 400) {
+          reject(xhr.response);
+        } else {
+          resolve(xhr.response);
+        }
+      };
+      xhr.onerror = () => {
+        reject('Something went wrong!');
       };
       xhr.send();
     });
@@ -65,16 +73,18 @@ export class AppComponent {
   };
   
   getRandomQuestion() {
-    this.sendHttpRequest('GET','/api/random').then(
-      responseData => this.getQuestionDataFromResult(responseData)
-    );
+    this.sendHttpRequest('GET','/api/random').
+    then( responseData => {
+      this.getQuestionDataFromResult(responseData)
+    });
   }
 
   getQuestionDataFromResult(responseData) {
-    this.id = responseData[0].id;
+    this.questionId = responseData[0].id;
     this.question = responseData[0].question;
     this.airdate = responseData[0].airdate;
     this.answer = responseData[0].answer;
     this.categoryId = responseData[0].category_id;
+    this.category = responseData[0].category.title;
   }
 }
