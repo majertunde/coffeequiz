@@ -85,11 +85,26 @@ export class AppComponent {
     });
     return promise;
   };
+
+  getHundredCategory() {
+    this.sendHttpRequest('GET','/api/categories?count=100&offset=' + this.categoryListOffset).
+    then( responseData => {
+      this.categoryList = responseData;
+    });
+  }
   
   getRandomQuestion() {
     this.sendHttpRequest('GET','/api/random').
     then( responseData => {
       this.getQuestionDataFromResult(responseData[0])
+    });
+  }
+
+  getQuestionFromSelectedCategory(selectedCategory) {
+    this.sendHttpRequest('GET','/api/clues?category=' + selectedCategory).
+    then( responseData => {
+      var random = Math.floor(Math.random() * responseData.length);
+      this.getQuestionDataFromResult(responseData[random]);
     });
   }
 
@@ -102,18 +117,19 @@ export class AppComponent {
     this.categoryName = responseData.category.title;
   }
 
-  getHundredCategory() {
-    this.sendHttpRequest('GET','/api/categories?count=100&offset=' + this.categoryListOffset).
-    then( responseData => {
-      this.categoryList = responseData;
-    });
+  showNextHundredCategory() {
+    this.categoryListOffset += 100;
+    if (this.categoryListOffset > 0) {
+      (<HTMLInputElement>document.getElementById("previousButton")).disabled = false;
+    }
+    this.getHundredCategory();
   }
 
-  getQuestionFromSelectedCategory(selectedCategory) {
-    this.sendHttpRequest('GET','/api/clues?category=' + selectedCategory).
-    then( responseData => {
-      var random = Math.floor(Math.random() * responseData.length);
-      this.getQuestionDataFromResult(responseData[random]);
-    });
+  showPreviousHundredCategory() {
+    this.categoryListOffset -= 100;
+    if (this.categoryListOffset == 0) {
+      (<HTMLInputElement>document.getElementById("previousButton")).disabled = true;
+    }
+    this.getHundredCategory();
   }
 }

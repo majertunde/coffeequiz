@@ -1,6 +1,6 @@
 <div class="titlebar">
   <img
-    width="40"
+    width="30"
     alt="Coffee Logo"
     src="https://www.shareicon.net/data/256x256/2016/08/18/812797_coffee_512x512.png"
   />
@@ -44,10 +44,14 @@
     </div>
     <div class="card dotted selection">
       <span>Select category from the list below:</span>
-      <select #selection size="8" (change)="selectedCategoryId = selection[selection.selectedIndex].id">
+      <select #selection size="6" (change)="selectedCategoryId = selection[selection.selectedIndex].id">
         <option value="random" id="-1" selected>Random category</option>
         <option *ngFor="let category of categoryList" id="{{category.id}}">{{ category.title }}</option>
       </select>
+    </div>
+    <div class="card buttons category">
+      <input type="button" id=previousButton disabled="disabled" value="Get previous 100 category" (click)="showPreviousHundredCategory()">
+      <input type="button" value="Get next 100 category" (click)="showNextHundredCategory()">
     </div>
   </div>
 
