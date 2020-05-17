@@ -6,7 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  private serverAddress = "http://jservice.io";
   title = 'coffeequiz';
+
   showAnswer = false;
   counter = 0;
   category : any;
@@ -17,7 +19,6 @@ export class AppComponent {
   answer : any;
   categories : any;
   interval : any;
-  result : any;
 
   ngOnInit(): void {
     this.getRandomQuestion();
@@ -49,23 +50,31 @@ export class AppComponent {
   raiseWrongAnswerMessage() {
     alert("Wrong answer! Try again!");
   }
+
+  sendHttpRequest =(method, path) => {
+    const promise = new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, this.serverAddress+path);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        resolve(xhr.response);
+      };
+      xhr.send();
+    });
+    return promise;
+  };
   
   getRandomQuestion() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://jservice.io/api/random');
-    xhr.onload = () => {
-      console.log(xhr.response);
-      this.result = JSON.parse(xhr.response)[0];
-      this.getQuestionDataFromResult();
-    };
-    xhr.send();
+    this.sendHttpRequest('GET','/api/random').then(
+      responseData => this.getQuestionDataFromResult(responseData)
+    );
   }
 
-  getQuestionDataFromResult() {
-    this.id = this.result.id;
-    this.question = this.result.question;
-    this.airdate = this.result.airdate;
-    this.answer = this.result.answer;
-    this.categoryId = this.result.category_id;
+  getQuestionDataFromResult(responseData) {
+    this.id = responseData[0].id;
+    this.question = responseData[0].question;
+    this.airdate = responseData[0].airdate;
+    this.answer = responseData[0].answer;
+    this.categoryId = responseData[0].category_id;
   }
 }
