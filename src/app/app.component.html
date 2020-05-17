@@ -10,9 +10,9 @@
 <div class="content">
 
   <div class="quiz-container">
-    <div class="card" [ngSwitch]="showRandomCategoryTitle">
-      <span *ngSwitchCase="'0'">Question from selected category: {{ categoryName }}</span>
-      <span *ngSwitchDefault>Question from random category: {{ categoryName }}</span>
+    <div class="card title">
+      <span [attr.hidden] = "showRandomCategoryTitle == 0 ? null : 'hidden'">Question from selected category: {{ categoryName }}</span>
+      <span [attr.hidden] = "showRandomCategoryTitle == 0 ? 'hidden' : null">Question from random category: {{ categoryName }}</span>
     </div>
    <div class="card question">
       <span>Question id: {{ questionId }}</span>
@@ -40,7 +40,7 @@
       <span>Show answer after:</span>
       <input #timeout type="text" id="seconds" placeholder="-1">
       <span>seconds</span>
-      <input type="button" value="Set seconds" (click)="timeoutCounter = timeout.value; showAnswerAfterTimeout()">
+      <input type="button" value="Set seconds" (click)="timeoutCounter = (timeout.value || '-1'); showAnswerAfterTimeout()">
     </div>
     <div class="card dotted selection">
       <span>Select category from the list below:</span>
@@ -50,7 +50,7 @@
       </select>
     </div>
     <div class="card buttons category">
-      <input type="button" id=previousButton disabled="disabled" value="Get previous 100 category" (click)="showPreviousHundredCategory()">
+      <input type="button" [attr.disabled] = "categoryListOffset == 0 ? 'disabled' : null" value="Get previous 100 category" (click)="showPreviousHundredCategory()">
       <input type="button" value="Get next 100 category" (click)="showNextHundredCategory()">
     </div>
   </div>

@@ -50,6 +50,11 @@
     line-height: 16px;
 }
 
+.card.title {
+    align-self: center;
+    text-align: center;
+}
+
 .content {
     display: flex;
     margin: 65px auto 32px;

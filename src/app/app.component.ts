@@ -10,10 +10,10 @@ export class AppComponent {
   title = 'coffeequiz';
 
   showAnswer = false;
+  showRandomCategoryTitle = true;
   timeoutCounter = -1;
   categoryListOffset = 0;
   selectedCategoryId = -1;
-  showRandomCategoryTitle = true;
   categoryList : any;
   categoryName : any;
   categoryId : any;
@@ -31,10 +31,14 @@ export class AppComponent {
 
   showAnswerAfterTimeout() {
     clearTimeout(this.interval);
-    var counter = this.timeoutCounter;
-    this.interval = setTimeout(() => {
-      this.showAnswer = true;
-    }, counter*1000);
+    if (this.timeoutCounter >= 0) {
+      var counter = this.timeoutCounter;
+      this.interval = setTimeout(() => {
+        this.showAnswer = true;
+      }, counter*1000);
+    } else {
+      this.showAnswer = false;
+    }
   }
 
   getNewQuestion() {
@@ -44,14 +48,10 @@ export class AppComponent {
       this.getRandomQuestion();
       this.showRandomCategoryTitle = true;
     } else {
-      this.getQuestionFromSelectedCategory(this.selectedCategoryId);
+      this.getQuestionFromSelectedCategory();
       this.showRandomCategoryTitle = false;
     }
-    if (this.timeoutCounter >= 0) {
-      this.showAnswerAfterTimeout();
-    } else {
-      this.showAnswer = false;
-    }
+    this.showAnswerAfterTimeout();
   }
 
   raiseNewQuestionConfirmation() {
@@ -92,6 +92,16 @@ export class AppComponent {
       this.categoryList = responseData;
     });
   }
+
+  showNextHundredCategory() {
+    this.categoryListOffset += 100;
+    this.getHundredCategory();
+  }
+
+  showPreviousHundredCategory() {
+    this.categoryListOffset -= 100;
+    this.getHundredCategory();
+  }
   
   getRandomQuestion() {
     this.sendHttpRequest('GET','/api/random').
@@ -100,8 +110,8 @@ export class AppComponent {
     });
   }
 
-  getQuestionFromSelectedCategory(selectedCategory) {
-    this.sendHttpRequest('GET','/api/clues?category=' + selectedCategory).
+  getQuestionFromSelectedCategory() {
+    this.sendHttpRequest('GET','/api/clues?category=' + this.selectedCategoryId).
     then( responseData => {
       var random = Math.floor(Math.random() * responseData.length);
       this.getQuestionDataFromResult(responseData[random]);
@@ -115,21 +125,5 @@ export class AppComponent {
     this.answer = responseData.answer;
     this.categoryId = responseData.category_id;
     this.categoryName = responseData.category.title;
-  }
-
-  showNextHundredCategory() {
-    this.categoryListOffset += 100;
-    if (this.categoryListOffset > 0) {
-      (<HTMLInputElement>document.getElementById("previousButton")).disabled = false;
-    }
-    this.getHundredCategory();
-  }
-
-  showPreviousHundredCategory() {
-    this.categoryListOffset -= 100;
-    if (this.categoryListOffset == 0) {
-      (<HTMLInputElement>document.getElementById("previousButton")).disabled = true;
-    }
-    this.getHundredCategory();
   }
 }
