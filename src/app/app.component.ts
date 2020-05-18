@@ -112,7 +112,7 @@ export class AppComponent {
 
   getQuestionFromSelectedCategory() {
     this.sendHttpRequest('GET','/api/clues?category=' + this.selectedCategoryId).
-    then( responseData => {
+    then( (responseData:JSON[]) => {
       var random = Math.floor(Math.random() * responseData.length);
       this.getQuestionDataFromResult(responseData[random]);
     });

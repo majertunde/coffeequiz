@@ -11,8 +11,8 @@
 
   <div class="quiz-container">
     <div class="card title">
-      <span [attr.hidden] = "showRandomCategoryTitle == 0 ? null : 'hidden'">Question from selected category: {{ categoryName }}</span>
-      <span [attr.hidden] = "showRandomCategoryTitle == 0 ? 'hidden' : null">Question from random category: {{ categoryName }}</span>
+      <span [attr.hidden] = "showRandomCategoryTitle == true ? 'hidden' : null">Question from selected category: {{ categoryName }}</span>
+      <span [attr.hidden] = "showRandomCategoryTitle == false ? 'hidden' : null">Question from random category: {{ categoryName }}</span>
     </div>
    <div class="card question">
       <span>Question id: {{ questionId }}</span>
